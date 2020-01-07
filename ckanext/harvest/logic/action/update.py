@@ -442,7 +442,7 @@ def harvest_objects_import(context, data_dict):
     return last_objects_count
 
 
-def _caluclate_next_run(frequency):
+def _calculate_next_run(frequency):
     now = datetime.datetime.utcnow()
     if frequency == 'ALWAYS':
         return now
