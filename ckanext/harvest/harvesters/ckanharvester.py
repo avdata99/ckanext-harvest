@@ -455,6 +455,8 @@ class CKANHarvester(HarvesterBase):
 
             log.debug('Have harvest source info for: %s' % harvest_object.id)
 
+            remote_orgs = self.config.get('remote_orgs', None)
+            
             if remote_orgs not in ('only_local', 'create'):
                 # Assign dataset to the source organization
                 package_dict['owner_org'] = local_org
