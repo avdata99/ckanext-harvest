@@ -340,29 +340,6 @@ def harvest_source_index_clear(context, data_dict):
     return {'id': harvest_source_id}
 
 
-def set_harvest_system_info(context, key, value):
-    ''' save data in the harvest_system_info table '''
-
-    model = context['model']
-
-    obj = None
-    try:
-        obj = model.Session.query(HarvestSystemInfo).filter_by(key=key).first()
-    except exc.ProgrammingError:
-        log.debug('No HarvestSystemInfo table. {0} skipped.'.format(key))
-        model.Session.rollback()
-        return
-
-    if obj:
-        obj.value = unicode(value)
-    else:
-        obj = HarvestSystemInfo()
-        obj.key = key
-        obj.value = value
-    model.Session.add(obj)
-    model.Session.commit()
-
-
 def harvest_objects_import(context, data_dict):
     '''
     Reimports the existing harvest objects, specified by either source_id,
@@ -535,8 +512,6 @@ def harvest_jobs_run(context, data_dict):
         _make_scheduled_jobs(context, data_dict)
 
     context['return_objects'] = False
-
-    set_harvest_system_info(context, 'last_run_time', datetime.datetime.utcnow() )
 
     # Flag finished jobs as such
     jobs = harvest_job_list(
