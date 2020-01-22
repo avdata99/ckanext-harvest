@@ -47,11 +47,15 @@ class Harvest(p.SingletonPlugin, DefaultDatasetForm):
             log.error('Failed to read harvest source configuration: {} {}'.format(cfg_str, str(e)))
             return data_dict
         
-        if cfg.get('use_external_harvester_app', False):
+        if cfg.get('harvester_app', 'CKAN') != 'CKAN':
             # this harvest source config value will be also readed 
             # by and externall application and run it without conflict.
             # By setting as inactive we stop all jobs and avoid to run locally in the future.
             data_dict['state'] = 'inactive'
+        else:
+            # fix the status when back
+            data_dict['state'] = 'active'
+
         return data_dict
 
     def after_create(self, context, data_dict):
