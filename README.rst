@@ -232,6 +232,9 @@ field. The currently supported configuration options are:
     will be replaced by their ascii equivalents, capital letters replaced by
     lower-case ones, and spaces replaced with dashes. Setting this option to False
     gives the same effect as leaving it unset.
+  
+*   use_external_harvester_app: Manage the harvest source locally but move to an 
+    _inactive status_. An external app (NG harvester) should run this harvest sources. 
 
 Here is an example of a configuration object (the one that must be entered in
 the configuration field)::
