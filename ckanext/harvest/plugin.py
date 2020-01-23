@@ -37,7 +37,7 @@ class Harvest(p.SingletonPlugin, DefaultDatasetForm):
 
     ## IPackageController
 
-    def _analyze_to_run_externally(data_dict):
+    def _update_harvest_source_state(data_dict):
         # if use_external_harvester_app is True we set as inactive locally
         # and it will be executed by some external application (e.g. NG harvester)
         cfg_str = data_dict.get('config', '{}')
@@ -61,13 +61,13 @@ class Harvest(p.SingletonPlugin, DefaultDatasetForm):
     def after_create(self, context, data_dict):
         if 'type' in data_dict and data_dict['type'] == DATASET_TYPE_NAME and not self.startup:
             # Create an actual HarvestSource object
-            data_dict = _analyze_to_run_externally(data_dict)
+            data_dict = _update_harvest_source_state(data_dict)
             _create_harvest_source_object(context, data_dict)
 
     def after_update(self, context, data_dict):
         if 'type' in data_dict and data_dict['type'] == DATASET_TYPE_NAME:
             # Edit the actual HarvestSource object
-            data_dict = _analyze_to_run_externally(data_dict)
+            data_dict = _update_harvest_source_state(data_dict)
             _update_harvest_source_object(context, data_dict)
 
     def after_delete(self, context, data_dict):
