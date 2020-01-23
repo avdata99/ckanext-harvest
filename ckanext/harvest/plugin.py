@@ -45,7 +45,7 @@ class Harvest(p.SingletonPlugin, DefaultDatasetForm):
             cfg = json.loads(cfg_str)
         except Exception as e:
             log.error('Failed to read harvest source configuration: {} {}'.format(cfg_str, str(e)))
-            return data_dict
+            return 'active'
 
         # this harvest source config value will be also readed 
         # by and externall application and run it without conflict.
