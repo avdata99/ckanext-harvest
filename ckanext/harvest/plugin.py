@@ -63,7 +63,7 @@ class Harvest(p.SingletonPlugin, DefaultDatasetForm):
     def after_update(self, context, data_dict):
         if 'type' in data_dict and data_dict['type'] == DATASET_TYPE_NAME:
             # Edit the actual HarvestSource object
-            data_dict = _get_harvest_source_state(data_dict)
+            data_dict['state'] = _get_harvest_source_state(data_dict)
             _update_harvest_source_object(context, data_dict)
 
     def after_delete(self, context, data_dict):
