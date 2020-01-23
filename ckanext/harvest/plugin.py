@@ -38,7 +38,7 @@ class Harvest(p.SingletonPlugin, DefaultDatasetForm):
     ## IPackageController
 
     def _analyze_to_run_externally(data_dict):
-        # if use_external_harvester_app is True we set and inactive locally
+        # if use_external_harvester_app is True we set as inactive locally
         # and it will be executed by some external application (e.g. NG harvester)
         cfg_str = data_dict.get('config', '{}')
         try:
