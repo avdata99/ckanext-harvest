@@ -762,15 +762,15 @@ def prepare_error_mail(context, source_id, status):
 
 def send_summary_email(context, source_id, status):
     subject, body = prepare_summary_mail(context, source_id, status)
-    recipients = get_recipients(context, source_id)
+    recipients = harvest_add_extra_notification_recipients(context, source_id)
     send_mail(recipients, subject, body)
 
 def send_error_email(context, source_id, status):
     subject, body = prepare_error_mail(context, source_id, status)
-    recipients = get_recipients(context, source_id)
+    recipients = harvest_add_extra_notification_recipients(context, source_id)
     send_mail(recipients, subject, body)
 
-def get_recipients(context, source_id):
+def harvest_add_extra_notification_recipients(context, source_id):
     """ get all recipients for a harvest source
         Return a list of dicts like {'name': 'Jhon', 'email': jhon@source.com'} """
         
@@ -806,17 +806,6 @@ def get_recipients(context, source_id):
                     'name': member_details['name'],
                     'email': member_details['email']
                 })
-
-    # allow plugins to add custom recipients 
-    for p in PluginImplementations(IActions):
-        actions = p.get_actions()
-        if 'add_extra_notification_recipients' in actions.keys():
-            fn = actions['add_extra_notification_recipients']    
-            data_dict = {'source_id': source_id}
-            new_recipients = fn(context, data_dict)
-            if len(new_recipients) > 0:
-                log.debug('New recipients added to notification: {}'.format(new_recipients))
-                recipients += new_recipients
     
     return recipients
 

@@ -270,6 +270,9 @@ class Harvest(MixinPlugin, p.SingletonPlugin, DefaultDatasetForm, DefaultTransla
 
         module_root = 'ckanext.harvest.logic.action'
         action_functions = _get_logic_functions(module_root)
+        
+        # extra actions
+        action_functions['harvest_add_extra_notification_recipients'] = ckanext.harvest.logic.action.update.harvest_add_extra_notification_recipients
 
         return action_functions
 
